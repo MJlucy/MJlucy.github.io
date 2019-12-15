@@ -179,33 +179,6 @@
         
       </header>
     
-<!-- 目录内容 -->
-
-    <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
-          <span class="btn-bg"></span>
-          <span class="btn-text">文章导航</span>
-          </p>
-    <div id="toc-article" class="toc-article">
-        <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
-        <strong class="toc-title">文章目录</strong>
-           
-         </div>
-   <script type="text/javascript">
-    function showToc(){
-        var toc_article = document.getElementById("toc-article");
-        var show_toc_btn = document.getElementById("show-toc-btn");
-        toc_article.setAttribute("style","display:block");
-        show_toc_btn.setAttribute("style","display:none");
-        };
-    function showBtn(){
-        var toc_article = document.getElementById("toc-article");
-        var show_toc_btn = document.getElementById("show-toc-btn");
-        toc_article.setAttribute("style","display:none");
-        show_toc_btn.setAttribute("style","display:block");
-        };
-   </script>
-      
-<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p><a href="https://zhuanlan.zhihu.com/p/24913080?utm_source=qq&amp;utm_medium=social&amp;utm_oi=667009035568680960" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/24913080?utm_source=qq&amp;utm_medium=social&amp;utm_oi=667009035568680960</a><br>首先从一个问题入手，当我们在浏览器输入url时，浏览器做了哪些事情。<br>1.首先Chrome搜索自身的DNS缓存。<br>2.读取硬盘中的host文件，里面记录着域名到ip地址的映射关系(如果1没有找到)<br>3.浏览器向宽带运营服务商或域名服务器发起DNS解析请求(如果12都没有找到)<br>4.拿到ip地址后，浏览器就向该ip地址所在服务器建立TCP连接(三次握手)<br>5.建立连接后，浏览器向服务器发起http请求(比如访问百度首页，就向服务器发起HTTP中的get请求)<br>6.服务器收到请求后，根据路径参数，经过后台一些处理后，把处理的结果返回给浏览器(如果是百度首页，就把完整的HTML页面代码返回给浏览器)<br>7.浏览器拿到完整的HTML页面代码，内核和js引擎就会解析和渲染这个页面，里面的js,css,图片等静态资源也通过一个个HTTP请求进行加载<br>8.浏览器根据拿到的资源对页面进行渲染，最终把完整页面呈现给用户<br>9.如果浏览器没有后续请求，就会跟服务器端发起TCP断开(四次挥手)</p>
