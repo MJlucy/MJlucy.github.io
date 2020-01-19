@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="es6," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在ES5中，从对象和数组中获取特定数据并赋值给变量，有许多看起来同质化的代码 1234567let options &#x3D; &amp;#123;    repeat: true,    save: false&amp;#125;;&#x2F;&#x2F; 从对象中提取数据let repeat &#x3D; options.repeat,save &#x3D; options.save; 对象解构123456">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解构赋值">
+<meta property="og:url" content="https:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;18&#x2F;deconstruct&#x2F;index.html">
+<meta property="og:site_name" content="MJbLog">
+<meta property="og:description" content="在ES5中，从对象和数组中获取特定数据并赋值给变量，有许多看起来同质化的代码 1234567let options &#x3D; &amp;#123;    repeat: true,    save: false&amp;#125;;&#x2F;&#x2F; 从对象中提取数据let repeat &#x3D; options.repeat,save &#x3D; options.save; 对象解构123456">
+<meta property="article:published_time" content="2019-12-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-12-18T12:45:58.826Z">
+<meta property="article:author" content="MJLUCY">
+<meta property="article:tag" content="es6">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://yoursite.com/2019/12/18/deconstruct/"/>
+
+
+
+
+
+  <title>解构赋值 | MJbLog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.1.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">MJbLog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://yoursite.com/2019/12/18/deconstruct/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="MJLUCY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MJbLog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">解构赋值</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-18T00:00:00+08:00">
+                2019-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/es6/" itemprop="url" rel="index">
+                    <span itemprop="name">es6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在ES5中，从对象和数组中获取特定数据并赋值给变量，有许多看起来同质化的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let options &#x3D; &#123;</span><br><span class="line">    repeat: true,</span><br><span class="line">    save: false</span><br><span class="line">&#125;;</span><br><span class="line">&#x2F;&#x2F; 从对象中提取数据</span><br><span class="line">let repeat &#x3D; options.repeat,</span><br><span class="line">save &#x3D; options.save;</span><br></pre></td></tr></table></figure>
+<h3 id="对象解构"><a href="#对象解构" class="headerlink" title="对象解构"></a>对象解构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let node &#x3D; &#123;</span><br><span class="line">    type: &quot;Identifier&quot;,</span><br><span class="line">    name: &quot;foo&quot;</span><br><span class="line">&#125;;</span><br><span class="line">let &#123; type, name &#125; &#x3D; node;</span><br><span class="line">console.log(type); &#x2F;&#x2F; &quot;Identifier&quot;</span><br><span class="line">console.log(name); &#x2F;&#x2F; &quot;foo&quot;</span><br></pre></td></tr></table></figure>
+<p>如果不是用在声明中，用在赋值中需要加小括号，因为语法规定，代码块语句不允许出现在赋值语句左侧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let node &#x3D; &#123;</span><br><span class="line">    type: &quot;Identifier&quot;,</span><br><span class="line">    name: &quot;foo&quot;</span><br><span class="line">&#125;,</span><br><span class="line">type &#x3D; &quot;Literal&quot;,</span><br><span class="line">name &#x3D; 5;</span><br><span class="line">&#x2F;&#x2F; 使用解构来分配不同的值</span><br><span class="line">(&#123; type, name &#125; &#x3D; node);</span><br><span class="line">console.log(type); &#x2F;&#x2F; &quot;Identifier&quot;</span><br><span class="line">console.log(name); &#x2F;&#x2F; &quot;foo&quot;</span><br></pre></td></tr></table></figure>
+<p>添加小括号后可以将块语句转化为一个表达式，从而实现整个解构赋值过程。<br>解构赋值表达式的值与表达式右侧(也就是=右侧)的值相等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">let node &#x3D; &#123;</span><br><span class="line">    type: &quot;Identifier&quot;,</span><br><span class="line">    name: &quot;foo&quot;</span><br><span class="line">&#125;,</span><br><span class="line">type &#x3D; &quot;Literal&quot;,</span><br><span class="line">name &#x3D; 5;</span><br><span class="line">function outputInfo(value) &#123;</span><br><span class="line">    console.log(value &#x3D;&#x3D;&#x3D; node); &#x2F;&#x2F; true</span><br><span class="line">&#125;</span><br><span class="line">outputInfo(&#123; type, name &#125; &#x3D; node);</span><br><span class="line">console.log(type); &#x2F;&#x2F; &quot;Identifier&quot;</span><br><span class="line">console.log(name); &#x2F;&#x2F; &quot;foo&quot;</span><br></pre></td></tr></table></figure>
+<p>调用outputlnfo()函数时传入了一个解构表达式，由于JS表达式的值为右侧的值，因而此处传入的参数等同于node，且变量type和name被重新赋值，最终将node传入outputlnfo()函数</p>
+<h4 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h4><p>使用解构赋值表达式时，如果指定的局部变量名称在对象中不存在，那么这个局部变量会被赋值为undefined</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let node &#x3D; &#123;</span><br><span class="line">    type: &quot;Identifier&quot;,</span><br><span class="line">    name: &quot;foo&quot;</span><br><span class="line">&#125;;</span><br><span class="line">let &#123; type, name, value &#125; &#x3D; node;</span><br><span class="line">console.log(type); &#x2F;&#x2F; &quot;Identifier&quot;</span><br><span class="line">console.log(name); &#x2F;&#x2F; &quot;foo&quot;</span><br><span class="line">console.log(value); &#x2F;&#x2F; undefined</span><br></pre></td></tr></table></figure>
+<p>当指定的属性不存在时，可以随意定义一个默认值，在属性名称后添加一个等号(=)和相应的默认值即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let node &#x3D; &#123;</span><br><span class="line">    type: &quot;Identifier&quot;,</span><br><span class="line">    name: &quot;foo&quot;</span><br><span class="line">&#125;;</span><br><span class="line">let &#123; type, name, value &#x3D; true &#125; &#x3D; node;</span><br><span class="line">console.log(type); &#x2F;&#x2F; &quot;Identifier&quot;</span><br><span class="line">console.log(name); &#x2F;&#x2F; &quot;foo&quot;</span><br><span class="line">console.log(value); &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+<p>在此示例中，为变量value设置了默认值true，只有当node上没有该属性或者该属性值为undefined时该值才生效。此处没有node.value属性，因为value使用了预设的默认值</p>
+<h4 id="为非同名局部变量赋值"><a href="#为非同名局部变量赋值" class="headerlink" title="为非同名局部变量赋值"></a>为非同名局部变量赋值</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let node &#x3D; &#123;</span><br><span class="line">    type: &quot;Identifier&quot;,</span><br><span class="line">    name: &quot;foo&quot;</span><br><span class="line">&#125;;</span><br><span class="line">let &#123; type: localType, name: localName &#125; &#x3D; node;</span><br><span class="line">console.log(localType); &#x2F;&#x2F; &quot;Identifier&quot;</span><br><span class="line">console.log(localName); &#x2F;&#x2F; &quot;foo&quot;</span><br></pre></td></tr></table></figure>
+<p>这段代码使用了解构赋值来声明变量localType和localName，这两个变量分别包含node.type和node.name属性的值。</p>
+<h4 id="嵌套对象解构"><a href="#嵌套对象解构" class="headerlink" title="嵌套对象解构"></a>嵌套对象解构</h4><p>解构嵌套对象仍然与对象字面量的语法相似，可以将对象拆解以获取想要的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">let node &#x3D; &#123;</span><br><span class="line">    type: &quot;Identifier&quot;,</span><br><span class="line">    name: &quot;foo&quot;,</span><br><span class="line">    loc: &#123;</span><br><span class="line">        start: &#123;</span><br><span class="line">            line: 1,</span><br><span class="line">            column: 1</span><br><span class="line">        &#125;,</span><br><span class="line">    end: &#123;</span><br><span class="line">        line: 1,</span><br><span class="line">        column: 4</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line">let &#123; loc: &#123; start &#125;&#125; &#x3D; node;</span><br><span class="line">console.log(start.line); &#x2F;&#x2F; 1</span><br><span class="line">console.log(start.column); &#x2F;&#x2F; 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="数组解构"><a href="#数组解构" class="headerlink" title="数组解构"></a>数组解构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let colors &#x3D; [ &quot;red&quot;, &quot;green&quot;, &quot;blue&quot; ];</span><br><span class="line">let [ firstColor, secondColor ] &#x3D; colors;</span><br><span class="line">console.log(firstColor); &#x2F;&#x2F; &quot;red&quot;</span><br><span class="line">console.log(secondColor); &#x2F;&#x2F; &quot;green&quot;</span><br></pre></td></tr></table></figure>
+<p>也可以直接省略元素，只为感兴趣的元素提供变量名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let colors &#x3D; [ &quot;red&quot;, &quot;green&quot;, &quot;blue&quot; ];</span><br><span class="line">let [ , , thirdColor ] &#x3D; colors;</span><br><span class="line">console.log(thirdColor); &#x2F;&#x2F; &quot;blue&quot;</span><br></pre></td></tr></table></figure>
+<p>用于直接赋值时，不需要加小括号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let colors &#x3D; [ &quot;red&quot;, &quot;green&quot;, &quot;blue&quot; ],</span><br><span class="line">firstColor &#x3D; &quot;black&quot;,</span><br><span class="line">secondColor &#x3D; &quot;purple&quot;;</span><br><span class="line">[ firstColor, secondColor ] &#x3D; colors;</span><br><span class="line">console.log(firstColor); &#x2F;&#x2F; &quot;red&quot;</span><br><span class="line">console.log(secondColor); &#x2F;&#x2F; &quot;green&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="变量交换"><a href="#变量交换" class="headerlink" title="变量交换"></a>变量交换</h4><p>可以用数组解构的方法很方便的实现变量交换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 在 ES6 中互换值</span><br><span class="line">let a &#x3D; 1,</span><br><span class="line">    b &#x3D; 2;</span><br><span class="line">[ a, b ] &#x3D; [ b, a ];</span><br><span class="line">console.log(a); &#x2F;&#x2F; 2</span><br><span class="line">console.log(b); &#x2F;&#x2F; 1</span><br></pre></td></tr></table></figure>
+<h4 id="默认值-1"><a href="#默认值-1" class="headerlink" title="默认值"></a>默认值</h4><p>也可以在数组解构赋值表达式中为数组中的任意位置添加默认值，当指定位置的属性不存在或其值为undefined时使用默认值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let colors &#x3D; [ &quot;red&quot; ];</span><br><span class="line">let [ firstColor, secondColor &#x3D; &quot;green&quot; ] &#x3D; colors;</span><br><span class="line">console.log(firstColor); &#x2F;&#x2F; &quot;red&quot;</span><br><span class="line">console.log(secondColor); &#x2F;&#x2F; &quot;green&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="嵌套数组解构"><a href="#嵌套数组解构" class="headerlink" title="嵌套数组解构"></a>嵌套数组解构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let colors &#x3D; [ &quot;red&quot;, [ &quot;green&quot;, &quot;lightgreen&quot; ], &quot;blue&quot; ];</span><br><span class="line">&#x2F;&#x2F; 随后</span><br><span class="line">let [ firstColor, [ secondColor ] ] &#x3D; colors;</span><br><span class="line">console.log(firstColor); &#x2F;&#x2F; &quot;red&quot;</span><br><span class="line">console.log(secondColor); &#x2F;&#x2F; &quot;green&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="不定元素"><a href="#不定元素" class="headerlink" title="不定元素"></a>不定元素</h4><p>在数组中，可以通过…语法将数组中的其余元素赋值给一个特定的变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let colors &#x3D; [ &quot;red&quot;, &quot;green&quot;, &quot;blue&quot; ];</span><br><span class="line">let [ firstColor, ...restColors ] &#x3D; colors;</span><br><span class="line">console.log(firstColor); &#x2F;&#x2F; &quot;red&quot;</span><br><span class="line">console.log(restColors.length); &#x2F;&#x2F; 2</span><br><span class="line">console.log(restColors[0]); &#x2F;&#x2F; &quot;green&quot;</span><br><span class="line">console.log(restColors[1]); &#x2F;&#x2F; &quot;blue&quot;</span><br></pre></td></tr></table></figure>
+<p>#####数组赋值<br>在ES5中，开发者们经常使用concat()方法来克隆数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 在 ES5 中克隆数组</span><br><span class="line">var colors &#x3D; [ &quot;red&quot;, &quot;green&quot;, &quot;blue&quot; ];</span><br><span class="line">var clonedColors &#x3D; colors.concat();</span><br><span class="line">console.log(clonedColors); &#x2F;&#x2F;&quot;[red,green,blue]&quot;</span><br></pre></td></tr></table></figure>
+<p>在ES6中，可以通过不定元素的语法来实现相同的目标</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let colors &#x3D; [ &quot;red&quot;, &quot;green&quot;, &quot;blue&quot; ];</span><br><span class="line">let [ ...clonedColors ] &#x3D; colors;</span><br><span class="line">console.log(clonedColors); &#x2F;&#x2F;&quot;[red,green,blue]&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="混合解构"><a href="#混合解构" class="headerlink" title="混合解构"></a>混合解构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">let node &#x3D; &#123;</span><br><span class="line">    type: &quot;Identifier&quot;,</span><br><span class="line">    name: &quot;foo&quot;,</span><br><span class="line">    loc: &#123;</span><br><span class="line">        start: &#123;</span><br><span class="line">            line: 1,</span><br><span class="line">            column: 1</span><br><span class="line">        &#125;,</span><br><span class="line">        end: &#123;</span><br><span class="line">            line: 1,</span><br><span class="line">            column: 4</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    range: [0, 3]</span><br><span class="line">&#125;;</span><br><span class="line">let &#123;</span><br><span class="line">    loc: &#123; start &#125;,</span><br><span class="line">    range: [ startIndex ]</span><br><span class="line">&#125; &#x3D; node;</span><br><span class="line">console.log(start.line); &#x2F;&#x2F; 1</span><br><span class="line">console.log(start.column); &#x2F;&#x2F; 1</span><br><span class="line">console.log(startIndex); &#x2F;&#x2F; 0</span><br></pre></td></tr></table></figure>
+<h3 id="解构参数"><a href="#解构参数" class="headerlink" title="解构参数"></a>解构参数</h3><p>普通写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; options 上的属性表示附加参数</span><br><span class="line">function setCookie(name, value, options) &#123;</span><br><span class="line">    options &#x3D; options || &#123;&#125;;</span><br><span class="line">    let secure &#x3D; options.secure,</span><br><span class="line">        path &#x3D; options.path,</span><br><span class="line">        domain &#x3D; options.domain,</span><br><span class="line">        expires &#x3D; options.expires;</span><br><span class="line">        &#x2F;&#x2F; 设置 cookie 的代码</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 第三个参数映射到 options</span><br><span class="line">setCookie(&quot;type&quot;, &quot;js&quot;, &#123;</span><br><span class="line">    secure: true,</span><br><span class="line">    expires: 60000</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>使用解构参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function setCookie(name, value, &#123; secure, path, domain, expires &#125;) &#123;</span><br><span class="line">&#x2F;&#x2F; 设置 cookie 的代码</span><br><span class="line">&#125;</span><br><span class="line">setCookie(&quot;type&quot;, &quot;js&quot;, &#123;</span><br><span class="line">    secure: true,</span><br><span class="line">    expires: 60000</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>解构参数需要使用对象或数组解构模式代替命名参数。如果调用函数时不提供被解构的参数会导致程序抛出错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 出错！</span><br><span class="line">setCookie(&quot;type&quot;, &quot;js&quot;);</span><br></pre></td></tr></table></figure>
+<p>因为当调用setCookie()函数时，JS引擎实际上做了以下这些事情</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function setCookie(name, value, options) &#123;</span><br><span class="line">    let &#123; secure, path, domain, expires &#125; &#x3D; options;</span><br><span class="line">    &#x2F;&#x2F; 设置 cookie 的代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果解构赋值表达式的右值为null或undefined，则程序会报错。</p>
+<p>如果解构参数是必需的，大可忽略掉这些问题；但如果希望将解构参数定义为可选的，那么就必须为其提供默认值来解决这个问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function setCookie(name, value, &#123; secure, path, domain, expires &#125; &#x3D; &#123;&#125;) &#123;</span><br><span class="line">    &#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个示例中为解构参数添加了一个新对象作为默认值，secure、path、domain及expires这些变量的值全部为undefined，这样即使在调用setCookie()时未传递第3个参数，程序也不会报错</p>
+<h4 id="默认值-2"><a href="#默认值-2" class="headerlink" title="默认值"></a>默认值</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function setCookie(name, value,</span><br><span class="line">    &#123;</span><br><span class="line">        secure &#x3D; false,</span><br><span class="line">        path &#x3D; &quot;&#x2F;&quot;,</span><br><span class="line">        domain &#x3D; &quot;example.com&quot;,</span><br><span class="line">        expires &#x3D; new Date(Date.now() + 360000000)</span><br><span class="line">    &#125; &#x3D; &#123;&#125;</span><br><span class="line">) &#123;</span><br><span class="line">    &#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将默认值放到setCookieDefaults对象中，在解构参数中可以直接使用这个对象来为每一个绑定设置默认参数。如果要改变默认值，可以立即在setCookieDefaults中修改，改变的数据将自动同步到所有出现过的地方。</p>
+<h3 id="其他解构"><a href="#其他解构" class="headerlink" title="其他解构"></a>其他解构</h3><h4 id="字符串解构"><a href="#字符串解构" class="headerlink" title="字符串解构"></a>字符串解构</h4><p>字符串也可以解构赋值。这是因为，字符串被转换成了一个类似数组的对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const [a, b, c, d, e] &#x3D; &#39;hello&#39;;</span><br><span class="line">console.log(a);&#x2F;&#x2F;&quot;h&quot;</span><br><span class="line">console.log(b);&#x2F;&#x2F;&quot;e&quot;</span><br><span class="line">console.log(c);&#x2F;&#x2F;&quot;l&quot;</span><br><span class="line">console.log(d);&#x2F;&#x2F;&quot;l&quot;</span><br><span class="line">console.log(e);&#x2F;&#x2F;&quot;o&quot;</span><br></pre></td></tr></table></figure>
+<p>类似数组的对象都有一个length属性，因此还可以对这个属性解构赋值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const &#123;length&#125; &#x3D; &#39;hello&#39;;</span><br><span class="line">console.log(length);&#x2F;&#x2F;5</span><br></pre></td></tr></table></figure>
+
+<h4 id="数值和布尔值解构"><a href="#数值和布尔值解构" class="headerlink" title="数值和布尔值解构"></a>数值和布尔值解构</h4><p>解构赋值时，如果等号右边是数值和布尔值，则会先转为对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let &#123;toString:s1&#125; &#x3D; 123;</span><br><span class="line">console.log(s1 &#x3D;&#x3D;&#x3D; Number.prototype.toString);&#x2F;&#x2F;true</span><br><span class="line">let &#123;toString:s2&#125; &#x3D; true;</span><br><span class="line">console.log(s2 &#x3D;&#x3D;&#x3D; Boolean.prototype.toString);&#x2F;&#x2F;true</span><br></pre></td></tr></table></figure>
+<p>解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let &#123; prop: x &#125; &#x3D; undefined; &#x2F;&#x2F; TypeError</span><br><span class="line">let &#123; prop: y &#125; &#x3D; null; &#x2F;&#x2F; TypeError</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/es6/" rel="tag"># es6</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/17/rem/" rel="next" title="rem和em">
+                <i class="fa fa-chevron-left"></i> rem和em
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/18/let/" rel="prev" title="let、const和var的概念与区别">
+                let、const和var的概念与区别 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">MJLUCY</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象解构"><span class="nav-number">1.</span> <span class="nav-text">对象解构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#默认值"><span class="nav-number">1.1.</span> <span class="nav-text">默认值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为非同名局部变量赋值"><span class="nav-number">1.2.</span> <span class="nav-text">为非同名局部变量赋值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#嵌套对象解构"><span class="nav-number">1.3.</span> <span class="nav-text">嵌套对象解构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组解构"><span class="nav-number">2.</span> <span class="nav-text">数组解构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#变量交换"><span class="nav-number">2.1.</span> <span class="nav-text">变量交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#默认值-1"><span class="nav-number">2.2.</span> <span class="nav-text">默认值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#嵌套数组解构"><span class="nav-number">2.3.</span> <span class="nav-text">嵌套数组解构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不定元素"><span class="nav-number">2.4.</span> <span class="nav-text">不定元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混合解构"><span class="nav-number">3.</span> <span class="nav-text">混合解构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解构参数"><span class="nav-number">4.</span> <span class="nav-text">解构参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#默认值-2"><span class="nav-number">4.1.</span> <span class="nav-text">默认值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他解构"><span class="nav-number">5.</span> <span class="nav-text">其他解构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串解构"><span class="nav-number">5.1.</span> <span class="nav-text">字符串解构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值和布尔值解构"><span class="nav-number">5.2.</span> <span class="nav-text">数值和布尔值解构</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">MJLUCY</span>
+
+  
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
