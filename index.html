@@ -248,6 +248,180 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://yoursite.com/2020/07/28/promise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="MJLUCY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MJbLog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/28/promise/" itemprop="url">promise</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-28T00:00:00+08:00">
+                2020-07-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/es6/" itemprop="url" rel="index">
+                    <span itemprop="name">es6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="Promise概念"><a href="#Promise概念" class="headerlink" title="Promise概念"></a>Promise概念</h4><ul>
+<li>什么是Promise</li>
+</ul>
+<p><strong>Promise</strong> 是一个对象，它代表了一个异步操作的最终完成或者失败。<br>它可以将复杂的异步处理轻松的进行模式化。</p>
+<ul>
+<li>Promise的优点<br>Promise最大的好处是在异步执行的流程中，把执行代码和处理结果的代码清晰地分离了。</li>
+</ul>
+<h4 id="Promise的基础用法"><a href="#Promise的基础用法" class="headerlink" title="Promise的基础用法"></a>Promise的基础用法</h4><ul>
+<li><p>解决回调函数才层层嵌套示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">doSomething(function(result) &#123;</span><br><span class="line">  doSomethingElse(result, function(newResult) &#123;</span><br><span class="line">    doThirdThing(newResult, function(finalResult) &#123;</span><br><span class="line">      console.log(&#39;Got the final result: &#39; + finalResult);</span><br><span class="line">    &#125;, failureCallback);</span><br><span class="line">  &#125;, failureCallback);</span><br><span class="line">&#125;, failureCallback);</span><br></pre></td></tr></table></figure>
+<p>可以改写为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">doSomething().then(function(result) &#123;</span><br><span class="line">  return doSomethingElse(result);</span><br><span class="line">&#125;)</span><br><span class="line">.then(function(newResult) &#123;</span><br><span class="line">  return doThirdThing(newResult);</span><br><span class="line">&#125;)</span><br><span class="line">.then(function(finalResult) &#123;</span><br><span class="line">  console.log(&#39;Got the final result: &#39; + finalResult);</span><br><span class="line">&#125;)</span><br><span class="line">.catch(failureCallback);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>语法规则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const promise &#x3D; new Promise(function(resolve, reject) &#123;</span><br><span class="line">  &#x2F;&#x2F; ... some code</span><br><span class="line"></span><br><span class="line">  if (&#x2F;* 异步操作成功 *&#x2F;)&#123;</span><br><span class="line">    resolve(value);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>resolve函数的作用是，将Promise对象的状态从“未完成”变为“成功”（即从 pending 变为 resolved），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；reject函数的作用是，将Promise对象的状态从“未完成”变为“失败”（即从 pending 变为 rejected），在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const promise &#x3D; new Promise(function(resolve, reject) &#123;</span><br><span class="line">  &#x2F;&#x2F; ... some code</span><br><span class="line"></span><br><span class="line">  if (&#x2F;* 异步操作成功 *&#x2F;)&#123;</span><br><span class="line">    resolve(value);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>then方法可以接受两个回调函数作为参数。第一个回调函数是Promise对象的状态变为resolved时调用，第二个回调函数是Promise对象的状态变为rejected时调用。其中，第二个函数是可选的，不一定要提供。这两个函数都接受Promise对象传出的值作为参数。</p>
+</li>
+</ul>
+<p><strong>then()</strong> 方法返回一个 Promise<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/then" target="_blank" rel="noopener">具体返回值</a></p>
+<h4 id="Promise-prototype-catch"><a href="#Promise-prototype-catch" class="headerlink" title="Promise.prototype.catch()"></a>Promise.prototype.catch()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; bad</span><br><span class="line">promise</span><br><span class="line">  .then(function(data) &#123;</span><br><span class="line">    &#x2F;&#x2F; success</span><br><span class="line">  &#125;, function(err) &#123;</span><br><span class="line">    &#x2F;&#x2F; error</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; good</span><br><span class="line">promise</span><br><span class="line">  .then(function(data) &#123; &#x2F;&#x2F;cb</span><br><span class="line">    &#x2F;&#x2F; success</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(function(err) &#123;</span><br><span class="line">    &#x2F;&#x2F; error</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<p>一般来说，不要在then()方法里面定义 Reject 状态的回调函数（即then的第二个参数），总是使用catch方法。理由是这种写法可以捕获前面then方法执行中的错误，也更接近同步的写法（try/catch)。</p>
+<h4 id="Promise-prototype-finally"><a href="#Promise-prototype-finally" class="headerlink" title="Promise.prototype.finally()"></a>Promise.prototype.finally()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">promise</span><br><span class="line">.then(result &#x3D;&gt; &#123;···&#125;)</span><br><span class="line">.catch(error &#x3D;&gt; &#123;···&#125;)</span><br><span class="line">.finally(() &#x3D;&gt; &#123;···&#125;);</span><br></pre></td></tr></table></figure>
+<p>不管promise最后的状态，在执行完then或catch指定的回调函数以后，都会执行finally方法指定的回调函数。</p>
+<h4 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise.all()"></a>Promise.all()</h4><p>Promise.all()方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const p &#x3D; Promise.all([p1, p2, p3]);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>只有p1、p2、p3的状态都变成fulfilled，p的状态才会变成fulfilled，此时p1、p2、p3的返回值组成一个数组，传递给p的回调函数。</li>
+<li>只要p1、p2、p3之中有一个被rejected，p的状态就变成rejected，此时第一个被reject的实例的返回值，会传递给p的回调函数。<h4 id="Promise-race"><a href="#Promise-race" class="headerlink" title="Promise.race()"></a>Promise.race()</h4>Promise.race()方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const p &#x3D; Promise.race([p1, p2, p3]);</span><br></pre></td></tr></table></figure>
+上面代码中，只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。<h4 id="Promise-allSettled"><a href="#Promise-allSettled" class="headerlink" title="Promise.allSettled()"></a>Promise.allSettled()</h4><code>Promise.allSettled()</code>方法接受一组 Promise 实例作为参数，包装成一个新的 Promise 实例。只有等到所有这些参数实例都返回结果，不管是<code>fulfilled</code>还是<code>rejected</code>，包装实例才会结束。该方法由 ES2020引入。<h4 id="Promise-any"><a href="#Promise-any" class="headerlink" title="Promise.any()"></a>Promise.any()</h4>接受一组 Promise 实例作为参数，包装成一个新的 Promise 实例。只要参数实例有一个变成fulfilled状态，包装实例就会变成fulfilled状态；如果所有参数实例都变成rejected状态，包装实例就会变成rejected状态。<h4 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve()"></a>Promise.resolve()</h4>有时需要将现有对象转为 Promise 对象，Promise.resolve()方法就起到这个作用。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const jsPromise &#x3D; Promise.resolve($.ajax(&#39;&#x2F;whatever.json&#39;));</span><br></pre></td></tr></table></figure>
+上面代码将 jQuery 生成的deferred对象，转为一个新的 Promise 对象。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://yoursite.com/2019/12/18/clone/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1852,175 +2026,13 @@ call 是把第二个及以后的参数作为 func 方法的实参传进去，而
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://yoursite.com/2019/01/19/typeof/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="MJLUCY">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MJbLog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/19/typeof/" itemprop="url">判断数据类型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-19T00:00:00+08:00">
-                2019-01-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h3><ul>
-<li>可识别标准类型（null会识别为object）</li>
-<li>不能识别具体的对象类型（Function除外）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">console.log(typeof &quot;jerry&quot;);&#x2F;&#x2F;&quot;string&quot;</span><br><span class="line">console.log(typeof 12);&#x2F;&#x2F;&quot;number&quot;</span><br><span class="line">console.log(typeof true);&#x2F;&#x2F;&quot;boolean&quot;</span><br><span class="line">console.log(typeof undefined);&#x2F;&#x2F;&quot;undefined&quot;</span><br><span class="line">console.log(typeof null);&#x2F;&#x2F;&quot;object&quot;</span><br><span class="line">console.log(typeof &#123;name: &quot;jerry&quot;&#125;);&#x2F;&#x2F;&quot;object&quot;</span><br><span class="line"></span><br><span class="line">console.log(typeof function()&#123;&#125;);&#x2F;&#x2F;&quot;function&quot;</span><br><span class="line">console.log(typeof []);&#x2F;&#x2F;&quot;object&quot;</span><br><span class="line">console.log(typeof new Date);&#x2F;&#x2F;&quot;object&quot;</span><br><span class="line">console.log(typeof &#x2F;\d&#x2F;);&#x2F;&#x2F;&quot;object&quot;</span><br><span class="line">function Person()&#123;&#125;;</span><br><span class="line">console.log(typeof new Person);&#x2F;&#x2F;&quot;object&quot;</span><br></pre></td></tr></table></figure>
-识别null的方法是进行恒等比较<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">console.log(typeof null);&#x2F;&#x2F;&#39;object&#39;</span><br><span class="line">console.log(null &#x3D;&#x3D;&#x3D; null);&#x2F;&#x2F;true</span><br><span class="line">console.log(undefined &#x3D;&#x3D;&#x3D; null);&#x2F;&#x2F;false</span><br><span class="line">console.log(&#39;null&#39; &#x3D;&#x3D;&#x3D; null);&#x2F;&#x2F;false</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h3><ul>
-<li>不能识别标准类型</li>
-<li>可以识别具体的对象类型</li>
-<li>不能识别null和undefined<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">console.log(&quot;jerry&quot; instanceof String);&#x2F;&#x2F;false</span><br><span class="line">console.log(12 instanceof Number);&#x2F;&#x2F;false</span><br><span class="line">console.log(true instanceof Boolean);&#x2F;&#x2F;false</span><br><span class="line">console.log(undefined instanceof Undefined);&#x2F;&#x2F;报错</span><br><span class="line">console.log(null instanceof Null);&#x2F;&#x2F;报错</span><br><span class="line">console.log(&#123;name: &quot;jerry&quot;&#125; instanceof Object);&#x2F;&#x2F;true</span><br><span class="line"></span><br><span class="line">console.log(function()&#123;&#125; instanceof Function);&#x2F;&#x2F;true</span><br><span class="line">console.log([] instanceof Array);&#x2F;&#x2F;true</span><br><span class="line">console.log(new Date instanceof Date);&#x2F;&#x2F;true</span><br><span class="line">console.log(&#x2F;\d&#x2F; instanceof RegExp);&#x2F;&#x2F;true</span><br><span class="line">function Person()&#123;&#125;;</span><br><span class="line">console.log(new Person instanceof Person);&#x2F;&#x2F;true</span><br><span class="line">console.log(new Person instanceof Object);&#x2F;&#x2F;true</span><br></pre></td></tr></table></figure>
-instanceof是一个二元运算符，左操作数是一个对象，右操作数是一个构造函数。如果左侧的对象是右侧构造函数的实例对象，则表达式返回true；否则返回false<br>如果左操作数不是对象，返回false，如果右操作数不是函数，则抛出一个TypeError<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(123 instanceof function()&#123;&#125;);&#x2F;&#x2F;false</span><br><span class="line">&#x2F;&#x2F;Uncaught TypeError: Right-hand side of &#39;instanceof&#39; is not an object</span><br><span class="line">console.log(&#123;&#125; instanceof 123);</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h3><ul>
-<li>可以识别标准类型和具体的对象类型</li>
-<li>不能识别null和undefined<br>实例对象的<code>constructor</code>属性指向其构造函数<br>如果是内置类型，则输出function 数据类型(){[native code]}；如果是自定义类型，则输出function 数据类型(){}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">console.log((&quot;jerry&quot;).constructor);&#x2F;&#x2F;function String()&#123;[native code]&#125;</span><br><span class="line">console.log((12).constructor);&#x2F;&#x2F;function Number()&#123;[native code]&#125;</span><br><span class="line">console.log((true).constructor);&#x2F;&#x2F;function Boolean()&#123;[native code]&#125;</span><br><span class="line">console.log((undefined).constructor);&#x2F;&#x2F;报错</span><br><span class="line">console.log((null).constructor);&#x2F;&#x2F;报错</span><br><span class="line">console.log((&#123;name: &quot;jerry&quot;&#125;).constructor);&#x2F;&#x2F;function Object()&#123;[native code]&#125;</span><br><span class="line"></span><br><span class="line">console.log((function()&#123;&#125;).constructor);&#x2F;&#x2F;function Function()&#123;[native code]&#125;</span><br><span class="line">console.log(([]).constructor);&#x2F;&#x2F;function Array()&#123;[native code]&#125;</span><br><span class="line">console.log((new Date).constructor);&#x2F;&#x2F;function Date()&#123;[native code]&#125;</span><br><span class="line">console.log((&#x2F;\d&#x2F;).constructor);&#x2F;&#x2F;function RegExp()&#123;[native code]&#125;</span><br><span class="line">function Person()&#123;&#125;;</span><br><span class="line">console.log((new Person).constructor);&#x2F;&#x2F;function Person()&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="Object-prototype-toString"><a href="#Object-prototype-toString" class="headerlink" title="Object.prototype.toString()"></a>Object.prototype.toString()</h3><ul>
-<li>可以识别标准类型和内置对象类型</li>
-<li>不能识别自定义对象类型<br>对象的类属性是一个字符串，用以表示对象的类型信息。javascript没有提供设置这个属性的方法，但有一种间接方法可以查询它。Object.prototype.toString()方法返回了如下格式的字符串：[object 数据类型]<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">console.log(Object.prototype.toString.call(&quot;jerry&quot;));&#x2F;&#x2F;[object String]</span><br><span class="line">console.log(Object.prototype.toString.call(12));&#x2F;&#x2F;[object Number]</span><br><span class="line">console.log(Object.prototype.toString.call(true));&#x2F;&#x2F;[object Boolean]</span><br><span class="line">console.log(Object.prototype.toString.call(undefined));&#x2F;&#x2F;[object Undefined]</span><br><span class="line">console.log(Object.prototype.toString.call(null));&#x2F;&#x2F;[object Null]</span><br><span class="line">console.log(Object.prototype.toString.call(&#123;name: &quot;jerry&quot;&#125;));&#x2F;&#x2F;[object Object]</span><br><span class="line"></span><br><span class="line">console.log(Object.prototype.toString.call(function()&#123;&#125;));&#x2F;&#x2F;[object Function]</span><br><span class="line">console.log(Object.prototype.toString.call([]));&#x2F;&#x2F;[object Array]</span><br><span class="line">console.log(Object.prototype.toString.call(new Date));&#x2F;&#x2F;[object Date]</span><br><span class="line">console.log(Object.prototype.toString.call(&#x2F;\d&#x2F;));&#x2F;&#x2F;[object RegExp]</span><br><span class="line">function Person()&#123;&#125;;</span><br><span class="line">console.log(Object.prototype.toString.call(new Person));&#x2F;&#x2F;[object Object]</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
+  </nav>
+
 
 
           </div>
@@ -2064,7 +2076,7 @@ instanceof是一个二元运算符，左操作数是一个对象，右操作数�
               
                 <a href="/archives/%7C%7Carchive">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
